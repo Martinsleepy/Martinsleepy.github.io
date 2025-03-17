@@ -13,7 +13,7 @@ for(let i = 0; i < rows; i++){
     for(let j = 0; j < rows; j++){
         cells.push(0);
         const cell = document.createElement("div");
-        cell.id = i.toString() + j.toString();
+        cell.id = i.toString() + ";" + j.toString();
         row.appendChild(cell);
         cell.addEventListener("click", CheckEmpty);
         cell.addEventListener("contextmenu", Flag);
@@ -39,7 +39,7 @@ for(let j = 0; j< pocetMin; j++){
 for(let i = 0; i<rows;i++){
     for(let j = 0; j<rows; j++){
         if(board[i][j] == -1){
-            const mine = document.getElementById(i.toString() + j.toString());
+            const mine = document.getElementById(i.toString() + ";" + j.toString());
             mine.removeEventListener("click", CheckEmpty);
             mine.addEventListener("click", ClickMine);
         }
@@ -67,33 +67,43 @@ function ClickMine(){
     for(let i =0; i<rows;i++){
         for(let j =0; j<rows;j++){
             if(board[j][i]==-1){
-                const boom = document.getElementById(j.toString()+i.toString());
+                const boom = document.getElementById(j.toString()+ ";" + i.toString());
                 boom.innerText = "×";
             }
         }
     }
     clicks = 0;
     alert("prohrál jsi");
+    for(let l=0; l<rows; l++){
+        for(let k =0; k<rows; k++){
+            if(board[k][l]!=-1){
+                const kaput = document.getElementById(k.toString+";"+l.toString());
+                kaput.removeEventListener("click", CheckEmpty);
+                kaput.removeEventListener("contextmenu", Flag);
+            }
+            else{
+                const end = document.getElementById(k.toString+";"+l.toString());
+                end.removeEventListener("click", ClickMine);
+                end.removeEventListener("contextmenu", Flag);
+            }
+        }
+    }
 }
 function CheckEmpty(event){
-    let x = parseInt(event.target.id[0]);
-    let y = parseInt(event.target.id[1]);
+    let x = parseInt(event.target.id.split(";")[0]);
+    let y = parseInt(event.target.id.split(";")[1]);
     event.target.removeEventListener("contextmenu", Flag);   
     if(board[x][y] > 0){
         event.target.innerText = board[x][y];
         event.target.style.backgroundColor = "lightgray";
         event.target.style.color = "red";
-        clicks++;
     }
     else{
         Reveal(x, y);
     }
-    if(pocetMin == rows*rows-clicks){
-        alert("gg");
-    }
 }
 function Reveal(x, y){
-    const cell = document.getElementById(x.toString()+y.toString());
+    const cell = document.getElementById(x.toString()+";" +y.toString());
     cell.removeEventListener("contextmenu", Flag);   
     cell.style.backgroundColor = "lightgray";
     cell.style.color = "orange";
@@ -102,20 +112,18 @@ function Reveal(x, y){
             if(y+i<rows&&y+i>-1){
                 if(x+j<rows&&x+j>-1){
                     if(board[x+j][y+i]>0){
-                        const revealed = document.getElementById((x+j).toString()+(y+i).toString());
+                        const revealed = document.getElementById((x+j).toString()+";" +(y+i).toString());
                         revealed.removeEventListener("contextmenu", Flag);
                         revealed.innerText = board[x+j][y+i];
                         revealed.style.backgroundColor = "lightgray";
                         revealed.style.color = "red";
-                        clicks++;
                     }
                     else if(board[x+j][y+i]==0){
-                        const revealed = document.getElementById((x+j).toString()+(y+i).toString());
+                        const revealed = document.getElementById((x+j).toString()+";"+(y+i).toString());
                         revealed.removeEventListener("contextmenu", Flag);
                         revealed.style.backgroundColor = "lightgray";
                         revealed.style.color = "orange";
                         board[x+j][y+i] = -2;
-                        clicks++;
                         Reveal(x+j, y+i);
                     }
                 }
@@ -130,7 +138,7 @@ function Flag(event){
         if(event.target.innerText == "🚩"){
             event.target.innerText = "";
             amount--;
-            if(board[event.target.id[0]][event.target.id[1]]==-1){
+            if(board[event.target.id.split(";")[0]][event.target.id.split(";")[1]]==-1){
                 event.target.addEventListener("click", ClickMine);
             }
             else{
@@ -140,7 +148,7 @@ function Flag(event){
         else{
             event.target.innerText = "🚩";
             amount++;
-            if(board[event.target.id[0]][event.target.id[1]]==-1){
+            if(board[event.target.id.split(";")[0]][event.target.id.split(";")[1]]==-1){
                 event.target.removeEventListener("click", ClickMine);
             }
             else{
@@ -152,7 +160,7 @@ function Flag(event){
         if(event.target.innerText == "🚩"){
             event.target.innerText = "";
             amount--;
-            if(board[event.target.id[0]][event.target.id[1]]==-1){
+            if(board[event.target.id.split(";")[0]][event.target.id.split(";")[1]]==-1){
                 event.target.addEventListener("click", ClickMine);
             }
             else{
@@ -162,3 +170,4 @@ function Flag(event){
     }
     flagcount.innerText = (pocetMin-amount).toString()+"🚩";
 }
+
