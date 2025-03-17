@@ -1,0 +1,17 @@
+#game_board{
+    display: grid;
+    grid-template-columns: repeat(100, 30px);
+    grid-template-rows: repeat(100, 30px);
+    gap: 2px;
+}
+div{
+    width: 30px;
+    height: 30px;
+    background-color: gray;
+    border: 1px solid;
+    text-align: center;
+    line-height: 30px; 
+    cursor: pointer;
+    color: aquamarine;
+}
+
