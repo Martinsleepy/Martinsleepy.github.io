@@ -1,10 +1,9 @@
 const gameBoard = document.getElementById("game_board");
 let rows = 8;
-let pocetMin = 10;
+let pocetMin = 3;
 let board = [];
 let cells = [];
 let amount = 0;
-let clicks = 0;
 
 
 
@@ -73,16 +72,17 @@ function ClickMine(){
         }
     }
     clicks = 0;
-    alert("prohrál jsi");
+    const message = document.getElementById("message");
+    message.innerText = "L bozo";
     for(let l=0; l<rows; l++){
         for(let k =0; k<rows; k++){
             if(board[k][l]!=-1){
-                const kaput = document.getElementById(k.toString+";"+l.toString());
+                const kaput = document.getElementById(k.toString()+";"+l.toString());
                 kaput.removeEventListener("click", CheckEmpty);
                 kaput.removeEventListener("contextmenu", Flag);
             }
             else{
-                const end = document.getElementById(k.toString+";"+l.toString());
+                const end = document.getElementById(k.toString()+";"+l.toString());
                 end.removeEventListener("click", ClickMine);
                 end.removeEventListener("contextmenu", Flag);
             }
@@ -101,6 +101,7 @@ function CheckEmpty(event){
     else{
         Reveal(x, y);
     }
+    
 }
 function Reveal(x, y){
     const cell = document.getElementById(x.toString()+";" +y.toString());
@@ -121,6 +122,7 @@ function Reveal(x, y){
                     else if(board[x+j][y+i]==0){
                         const revealed = document.getElementById((x+j).toString()+";"+(y+i).toString());
                         revealed.removeEventListener("contextmenu", Flag);
+                        revealed.innerText = " ";
                         revealed.style.backgroundColor = "lightgray";
                         revealed.style.color = "orange";
                         board[x+j][y+i] = -2;
@@ -169,5 +171,5 @@ function Flag(event){
         }
     }
     flagcount.innerText = (pocetMin-amount).toString()+"🚩";
+    
 }
-
