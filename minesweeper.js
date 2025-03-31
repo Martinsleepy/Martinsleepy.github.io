@@ -1,6 +1,6 @@
 const gameBoard = document.getElementById("game_board");
 let rows = 8;
-let pocetMin = 3;
+let pocetMin = 10;
 let board = [];
 let cells = [];
 let amount = 0;
@@ -71,9 +71,7 @@ function ClickMine(){
             }
         }
     }
-    clicks = 0;
-    const message = document.getElementById("message");
-    message.innerText = "L bozo";
+    flagcount.innerText += " Skill issue!";
     for(let l=0; l<rows; l++){
         for(let k =0; k<rows; k++){
             if(board[k][l]!=-1){
@@ -101,7 +99,32 @@ function CheckEmpty(event){
     else{
         Reveal(x, y);
     }
-    
+    let count = 0;
+    for(let i = 0; i<rows; i++){
+        for(let j = 0; j<rows; j++){
+            const check = document.getElementById(j.toString() + ";" + i.toString());
+            if(board[j][i] == -2 || check.style.backgroundColor == "lightgray"){
+                count++;
+            }
+        }
+    }
+    if(count + pocetMin == rows*rows){
+        flagcount.innerText += " Well played!";
+        for(let l=0; l<rows; l++){
+            for(let k =0; k<rows; k++){
+                if(board[k][l]!=-1){
+                    kaput = document.getElementById(k.toString()+";"+l.toString());
+                    kaput.removeEventListener("click", CheckEmpty);
+                    kaput.removeEventListener("contextmenu", Flag);
+                }
+                else{
+                    end = document.getElementById(k.toString()+";"+l.toString());
+                    end.removeEventListener("click", ClickMine);
+                    end.removeEventListener("contextmenu", Flag);
+                }
+            }
+        }
+    }
 }
 function Reveal(x, y){
     const cell = document.getElementById(x.toString()+";" +y.toString());
@@ -122,10 +145,10 @@ function Reveal(x, y){
                     else if(board[x+j][y+i]==0){
                         const revealed = document.getElementById((x+j).toString()+";"+(y+i).toString());
                         revealed.removeEventListener("contextmenu", Flag);
-                        revealed.innerText = " ";
                         revealed.style.backgroundColor = "lightgray";
                         revealed.style.color = "orange";
                         board[x+j][y+i] = -2;
+                        revealed.innerText = "";
                         Reveal(x+j, y+i);
                     }
                 }
