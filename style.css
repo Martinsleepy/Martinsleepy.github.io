@@ -1,20 +1,34 @@
-#game_board{
-    display: grid;
-    grid-template-columns: repeat(100, 30px);
-    grid-template-rows: repeat(100, 30px);
-    gap: 2px;
+
+*{
+    box-sizing: border-box;
 }
-div{
+.game{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+#mine_board{
+    display: grid;
+    background-color: gray;
+}
+.cell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 30px;
     height: 30px;
+    border: 1px solid #2DD881;
     background-color: gray;
-    border: 1px solid;
-    text-align: center;
-    line-height: 30px; 
     cursor: pointer;
-    color: aquamarine;
+    color: #2DD881;
 }
 p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: Arial, Helvetica, sans-serif;
+}
+body{
+    background-color: lightgoldenrodyellow;
 }
 
