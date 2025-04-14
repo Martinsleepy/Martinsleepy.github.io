@@ -1,17 +1,44 @@
-#game_board{
-    display: grid;
-    grid-template-columns: repeat(100, 30px);
-    grid-template-rows: repeat(100, 30px);
-    gap: 2px;
+*{
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-div{
+#game{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+#mine_board{
+    display: grid;
+}
+.cell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 30px;
     height: 30px;
+    border: 1px solid #2DD881;
     background-color: gray;
-    border: 1px solid;
-    text-align: center;
-    line-height: 30px; 
     cursor: pointer;
-    color: aquamarine;
+    color: #2DD881;
 }
-
+#flags{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.question{
+    display: flex;
+    justify-content: center;
+}
+.inputs{
+    display:flex;
+    justify-content: center;
+}
+label{
+    display: flex;
+    justify-content: center;
+}
+.difficulty{
+    display: flex;
+    justify-content: center;
+}

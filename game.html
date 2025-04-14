@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Hledání min</title>
+</head>
+<body>
+  <p class="question">Adjust Your Game Board</p>
+  <label for="size">Size: <span id="sizeValue">8</span></label>
+  <div class="inputs">
+    <input id="size" type="range" min="3" value="5" max="18">
+  </div>
+  <label for="minecount">Mines: <span id="mineValue">0</span></label>
+  <div class="inputs">
+    <input id="minecount" type="range" min="0" value="0">
+  </div>
+  <p class="question">OR Select Your Difficulty</p>
+  <div class="difficulty">
+    <input id="easyDif" type="button" value="Easy">
+    <input id="medDif" type="button" value="Medium">
+    <input id="hardDif" type="button" value="Hard">
+    <input id="extremeDif" type="button" value="Extreme">
+  </div>
+  <p class="question">Ready To Play?</p>
+  <div class="inputs">
+    <input id="submit" type="button" value="Let's play!">
+  </div>
+  <p id="flags"></p>
+  <div id="game"></div>
+  <script src="minesweeper.js"></script>
+</body>
+</html>
