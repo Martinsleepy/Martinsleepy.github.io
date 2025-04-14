@@ -11,7 +11,7 @@
   <p class="question">Adjust Your Game Board</p>
   <label for="size">Size: <span id="sizeValue">8</span></label>
   <div class="inputs">
-    <input id="size" type="range" min="3" value="5" max="18">
+    <input id="size" type="range" min="3" value="5" max="30">
   </div>
   <label for="minecount">Mines: <span id="mineValue">0</span></label>
   <div class="inputs">
@@ -28,6 +28,7 @@
   <div class="inputs">
     <input id="submit" type="button" value="Let's play!">
   </div>
+  <p id="timer">Time: 0s</p>
   <p id="flags"></p>
   <div id="game"></div>
   <script src="minesweeper.js"></script>

@@ -1,4 +1,5 @@
 let boards = 0;
+let clicks = 0;
 
 const size = document.getElementById("size");
 size.addEventListener("input", ChangeInSize);
@@ -17,42 +18,46 @@ const extra = document.getElementById("extremeDif");
 extra.addEventListener("click", Extreme);
 
 function Easy(){
-    size.value = 8;
+    size.value = 9;
     ChangeInSize();
     mineCount.value = 10;
     ChangeInMines();
 }
 function Medium(){
-    size.value = 13;
+    size.value = 16;
     ChangeInSize();
-    mineCount.value = 30;
+    mineCount.value = 40;
     ChangeInMines();
 }
 function Hard(){
-    size.value = 18;
+    size.value = 30;
     ChangeInSize();
-    mineCount.value = 50;
+    mineCount.value = 180;
     ChangeInMines();
 }
 function Extreme(){
-    mineCount.max = 150;
-    size.max = 30;
-    size.value = 30;
+    mineCount.max = 500;
+    size.max = 50;
+    size.value = 50;
     sizeValue.innerText = size.value.toString() + "×" + size.value.toString();
-    mineCount.value = 150;
-    size.style.width = "216px";
+    mineCount.value = 500;
+    size.style.width = "215px";
     ChangeInMines();
-    mineCount.style.width = "600px";
+    mineCount.style.width = "750px";
 }
 
 function ChangeInSize(){
-    size.style.width = "120px";
-    size.max = 18;
+    size.style.width = "150px";
+    size.max = 30;
     sizeValue.innerText = size.value.toString() + "×" + size.value.toString();
     mineCount.value = 0;
     mineCount.max = size.value*size.value;
     mineCount.style.width = (size.value*size.value*4).toString()+"px";
+    if (parseInt(mineCount.style.width) > 750){
+        mineCount.style.width = "750px";
+    }
     ChangeInMines();
+    gameTime.value = "Let's Play!";
 }
 
 function ChangeInMines(){
@@ -67,6 +72,7 @@ class Board{
         this.mines = parseInt(mines);
     }
     GenerateBoard() {
+        clicks = 0;
         const gameBoard = document.createElement("div");
         gameBoard.id = "mine_board";
         const game = document.getElementById("game");
@@ -136,6 +142,7 @@ class Board{
         let funcrows = this.rows;
         let funcmines = this.mines;
         function ClickMine(){
+            timeStop();
             for(let i =0; i<funcrows;i++){
                 for(let j =0; j<funcrows;j++){
                     if(board[j][i]==-1){
@@ -161,6 +168,10 @@ class Board{
             }
         }
         function CheckEmpty(event){
+            if (clicks == 0){
+                timeStart();
+            }
+            clicks++;
             let x = parseInt(event.target.id.split(";")[0]);
             let y = parseInt(event.target.id.split(";")[1]);
             event.target.removeEventListener("contextmenu", Flag);   
@@ -188,21 +199,22 @@ class Board{
                 }
                 else{
                     flagcount.innerText += " Well played!";
-                    for(let l=0; l<funcrows; l++){
-                        for(let k =0; k<funcrows; k++){
-                            if(board[k][l]!=-1){
-                                const kaput = document.getElementById(k.toString()+";"+l.toString());
-                                kaput.removeEventListener("click", CheckEmpty);
-                                kaput.removeEventListener("contextmenu", Flag);
-                            }
-                            else{
-                                const end = document.getElementById(k.toString()+";"+l.toString());
-                                end.removeEventListener("click", ClickMine);
-                                end.removeEventListener("contextmenu", Flag);
-                            }
+                }
+                for(let l=0; l<funcrows; l++){
+                    for(let k =0; k<funcrows; k++){
+                        if(board[k][l]!=-1){
+                            const kaput = document.getElementById(k.toString()+";"+l.toString());
+                            kaput.removeEventListener("click", CheckEmpty);
+                            kaput.removeEventListener("contextmenu", Flag);
+                        }
+                        else{
+                            const end = document.getElementById(k.toString()+";"+l.toString());
+                            end.removeEventListener("click", ClickMine);
+                            end.removeEventListener("contextmenu", Flag);
                         }
                     }
                 }
+                timeStop();
             }
         }
         function Reveal(x, y){
@@ -276,15 +288,43 @@ class Board{
             flagcount.innerText = (parseInt(funcmines)-amount).toString()+"🚩";
         }
     }
-    
+    DeleteBoard(){
+        const deleting = document.getElementById("mine_board");
+        deleting.remove();
+    }
 }
 gameTime.addEventListener("click", buttonPress);
 function buttonPress(){
+    timeReset();
+    let newGame = new Board(size.value, mineCount.value);
+    gameTime.value = "Play Again";
     if (boards == 0){
-        let newGame = new Board(size.value, mineCount.value);
         newGame.GenerateBoard();
+    }
+    else{
+        newGame.DeleteBoard();
+        let newGame2 = new Board(size.value, mineCount.value);
+        newGame2.GenerateBoard();
     }
     boards++;
 }
 ChangeInSize();
 ChangeInMines();
+let timeInterval;
+let startTime;
+function timeStart(){
+    startTime = Date.now();
+    timeInterval = setInterval(() => {
+        const gone = Math.floor((Date.now()-startTime)/1000);
+        document.getElementById("timer").innerText = "Timer: "+ gone.toString() +"s";
+    }, 1000);
+}
+function timeStop(){
+    clearInterval(timeInterval);
+}
+function timeReset(){
+    timeStop();
+    document.getElementById("timer").innerText = "Timer: 0s";
+}
+
+
