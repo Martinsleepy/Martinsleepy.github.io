@@ -1,15 +1,14 @@
-
 *{
     box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-.game{
+#game{
     display:flex;
     justify-content: center;
     align-items: center;
 }
 #mine_board{
     display: grid;
-    background-color: gray;
 }
 .cell{
     display: flex;
@@ -22,13 +21,24 @@
     cursor: pointer;
     color: #2DD881;
 }
-p{
+#flags{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial, Helvetica, sans-serif;
 }
-body{
-    background-color: lightgoldenrodyellow;
+.question{
+    display: flex;
+    justify-content: center;
 }
-
+.inputs{
+    display:flex;
+    justify-content: center;
+}
+label{
+    display: flex;
+    justify-content: center;
+}
+.difficulty{
+    display: flex;
+    justify-content: center;
+}
